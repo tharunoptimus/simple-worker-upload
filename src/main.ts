@@ -13,6 +13,9 @@ let selectedFileName: HTMLSpanElement | any =
 let statusSpan: HTMLSpanElement | any = document.querySelector(".status")
 let progressBar: HTMLProgressElement | any = document.querySelector(".progress")
 
+let checkEndpoint: HTMLDivElement | null =
+	document.querySelector(".checkEndpoint")
+
 // Add event listener to the buttons
 uploadButton?.addEventListener("click", pickAndSendFile)
 
@@ -59,3 +62,15 @@ workerChannel.onmessage = (e: MessageEvent) => {
 		statusSpan.innerText = status
 	}
 }
+
+async function checkForEndpoint() {
+	try {
+		await fetch("http://localhost:3003/ping")
+		console.log("END_POINT IS UP")
+	} catch (error) {
+		checkEndpoint?.classList.remove("hidden")
+		console.log(error)
+	}
+}
+
+checkForEndpoint()
