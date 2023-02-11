@@ -52,14 +52,20 @@ I've tried to explain everything as simple as possible. If you have any question
 # Demo Video
 The file (474M) is from an HDD (slower than what you expect from SSDs) to demo. 
 The upload folder on the server(on the right - Express & MULTER) is on an SSD. It stores the uploaded file.
-The progress bar data is from the web worker. 
+The progress bar data is from the web worker.
 
-📺 [Demo Video](/videos/demo.mp4)
+
+https://user-images.githubusercontent.com/59702671/218266126-d2c3ed13-14d1-4c4e-b102-c049d766122a.mp4
+
+
 
 # Demo Video where we block the main thread by running a long loop ~10s in the main thread
 The same file, but we deliberately block the main thread for about ~6s with a `for` loop. Notice, it fails to update the progress bar for the time being. But when the main thread comes back, it updates the progress bar. Also notice, the upload is still going on in the background with the web worker 🚀
 
-📺 [Blocking Thread - Demo Video](/videos/blocking.mp4)
+
+https://user-images.githubusercontent.com/59702671/218266136-7e5829f1-0a70-4c23-a207-c06003a1013d.mp4
+
+
 
 PS: I've never worked with S3 and I don't know the configuration for uploads. But in this example I've used Express and Multer to handle the upload.
 
