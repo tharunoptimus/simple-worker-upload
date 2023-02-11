@@ -1,6 +1,13 @@
-import './style.css'
-import typescriptLogo from './typescript.svg'
-import { setupCounter } from './counter'
+// Grab the elements from the DOM
+let uploadButton: HTMLButtonElement | null =
+	document.querySelector(".uploadButton")
+let fileUpload: HTMLDivElement | null = document.querySelector(".fileUpload")
+
+let selectedFileName: HTMLSpanElement | any =
+	document.querySelector(".selectedFileName")
+let statusSpan: HTMLSpanElement | any = document.querySelector(".status")
+let progressBar: HTMLProgressElement | any = document.querySelector(".progress")
+
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
