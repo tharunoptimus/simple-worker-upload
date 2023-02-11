@@ -12,6 +12,27 @@
 
 <body>
 	<div id="app">
+		<h1>Upload with a Web Worker</h1>
+		<span>If your file is small <code>(&lt;10MB)</code>, throttle network connectivity with <code>"Slow 3G"</code>
+			on
+			the <code>"Network"</code> tab in the <code>"Dev Tools"</code></span>
+
+		<br>
+		<br>
+
+		<button type="button" class="uploadButton">Upload a File</button>
+
+		<div class="fileUpload hidden">
+			<h2>Upload Progress</h2>
+			
+			<span class="selectedFileName">No File Selected</span>
+			<br>
+			<progress class="progress" value="0" max="100"></progress>
+			<br>
+			<span class="status"></span>
+		</div>
+
+
 	</div>
 	<script type="module" src="/src/main.ts"></script>
 </body>
