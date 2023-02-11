@@ -1,3 +1,8 @@
+import { WorkerMessage } from "./types"
+
+// Channel to communicate with the worker
+let workerChannel: BroadcastChannel = new BroadcastChannel("workerChannel")
+
 // Grab the elements from the DOM
 let uploadButton: HTMLButtonElement | null =
 	document.querySelector(".uploadButton")
@@ -32,22 +37,25 @@ function pickAndSendFile() {
 	fileInput.click()
 }
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+// Listen for messages from the broadcast channel
+workerChannel.onmessage = (e: MessageEvent) => {
+	let data: WorkerMessage = e.data
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+	let { type } = data
+
+	if (type === "ready") {
+		let fileName = data?.fileName
+		selectedFileName.innerText = `Uploading: ${fileName}`
+	}
+
+	if (type === "progress") {
+		let progress = data?.progress
+		progress! *= 100
+		progressBar.value = progress
+	}
+
+	if (type === "status") {
+		let status = data?.status
+		statusSpan.innerText = status
+	}
+}
