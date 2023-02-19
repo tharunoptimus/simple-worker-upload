@@ -3,4 +3,5 @@ export interface WorkerMessage {
     fileName?: string
     progress?: number
     status?: string
+    retry?: boolean
 }

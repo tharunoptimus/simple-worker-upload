@@ -1,5 +1,5 @@
 import { WorkerMessage } from "./types"
-
+let documentTitle = document.title
 // Channel to communicate with the worker
 let workerChannel: BroadcastChannel = new BroadcastChannel("workerChannel")
 
@@ -35,6 +35,11 @@ function pickAndSendFile() {
 		)
 
 		worker.postMessage(file)
+
+		// workerChannel.postMessage({
+		// 	type: "callWorker",
+		// 	fileName: file.name,
+		// })
 	}
 
 	fileInput.click()
@@ -55,11 +60,14 @@ workerChannel.onmessage = (e: MessageEvent) => {
 		let progress = data?.progress
 		progress! *= 100
 		progressBar.value = progress
+		document.title = `${progress?.toFixed(2)}% Uploading Video`
 	}
 
 	if (type === "status") {
 		let status = data?.status
 		statusSpan.innerText = status
+		document.title = documentTitle
+		selectedFileName.innerText = ""
 	}
 }
 
@@ -73,4 +81,33 @@ async function checkForEndpoint() {
 	}
 }
 
+async function registerServiceWorker() {
+	try {
+		
+		await navigator.serviceWorker.register(
+			new URL("./sw/sw.js", import.meta.url),
+			{
+				type: "module",
+			}
+		)
+	} catch (error) {
+		console.log(error)
+	}
+}
+
+async function getPushNotificationAccess() {
+	try {
+		let permission = await Notification.requestPermission()
+		if (permission === "granted") {
+			console.log("Permission Granted")
+		} else {
+			console.log("Permission Denied")
+		}
+	} catch (error) {
+		console.log(error)
+	}
+}
+
 checkForEndpoint()
+registerServiceWorker()
+getPushNotificationAccess()
